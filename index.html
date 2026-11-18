@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design it. We’ll stitch it.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;800&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--fg:#f1ede4;--mut:#a39f94;--acc:#2ec4ff;--card:#141414;--line:#3a3a3a;--btnfg:#001018;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#fff;--fg:#111;--mut:#666;--acc:#0079b0;--card:#f4f4f2;--line:#c9c9c9;--btnfg:#fff;color-scheme:light}}
+:root[data-theme="dark"]{--bg:#000;--fg:#f1ede4;--mut:#a39f94;--acc:#2ec4ff;--card:#141414;--line:#3a3a3a;--btnfg:#001018}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:'Archivo',system-ui,sans-serif}
+.land{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;gap:18px}
+.land h2{font-size:clamp(30px,7vw,52px);font-weight:800;letter-spacing:-.02em;margin:0}
+.land .go{margin-top:8px;width:auto}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.ov.open{display:flex}
+.sheet{position:relative;background:var(--bg);width:100%;max-width:1100px;max-height:94%;overflow-y:auto;padding:30px 20px 60px;border-radius:18px 18px 0 0;animation:up .3s ease;border:1px solid var(--line);border-bottom:0}
+@keyframes up{from{transform:translateY(60px);opacity:0}}
+@media(min-width:900px){.ov{align-items:center}.sheet{border-radius:18px;max-height:92vh;padding:44px 40px;border-bottom:1px solid var(--line)}}
+.x{position:sticky;top:0;float:right;z-index:5;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:24px;line-height:1;cursor:pointer;margin:-14px -4px 0 0}
+.eyebrow{color:var(--acc);letter-spacing:.3em;font-size:13px;text-transform:uppercase}
+h1{font-size:clamp(34px,8vw,60px);font-weight:800;letter-spacing:-.02em;margin:14px 0}
+.sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(22px,5vw,30px);color:var(--acc);margin:0 0 34px}
+.lbl{display:block;color:var(--mut);letter-spacing:.2em;font-size:12px;text-transform:uppercase;margin:28px 0 12px}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{background:var(--bg);color:var(--fg);border:1px solid var(--line);padding:12px 20px;font:inherit;font-size:15px;cursor:pointer}
+.opt.on{border-color:var(--acc);color:var(--acc)}
+.sw{width:48px;height:48px;border-radius:50%;border:3px solid var(--line);padding:0;cursor:pointer}
+.sw.on{outline:2px solid var(--acc);outline-offset:3px}
+input,textarea{width:100%;background:var(--card);color:var(--fg);border:1px solid var(--line);padding:16px 18px;font:inherit;font-size:16px}
+input:focus,textarea:focus{outline:1px solid var(--acc)}
+textarea{min-height:90px;resize:vertical}
+input[type=file]{padding:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+.go{margin-top:30px;background:var(--acc);color:var(--btnfg);border:0;padding:20px 34px;font:inherit;font-weight:800;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;width:100%;max-width:360px}
+.note{color:var(--mut);font-size:13px;margin-top:10px}
+.err{color:#ff6b6b;margin-top:12px;min-height:1em}
+.ok{display:none;margin-top:24px;border:1px solid var(--acc);color:var(--acc);padding:22px;line-height:1.6}
+.ok a{display:inline-block;margin-top:12px;background:var(--acc);color:var(--btnfg);padding:12px 20px;text-decoration:none;font-weight:800}
+#prev{max-width:140px;max-height:140px;margin-top:12px;display:none;border:1px solid var(--line)}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+.pv{position:sticky;top:20px;border:1px solid #1d3550;padding:16px 16px 20px;transition:background .4s;color:#aab4c0}
+.pv svg{width:100%;height:auto;display:block}
+.cap{font-size:15px;margin:10px 4px 8px}
+.cap2{font-size:13px;opacity:.8;margin:0 4px}
+.chart{border-collapse:collapse;margin-top:14px;font-size:13px;min-width:100%;text-align:center}
+.chart th,.chart td{border:1px solid var(--line);padding:7px 8px;white-space:nowrap}
+.chart th{color:var(--mut);font-weight:500;text-align:left}
+.chart td.on{color:var(--acc);border-color:var(--acc)}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.pv{order:-1;position:static}.pv svg{max-height:340px}}
+</style>
+</head>
+<body>
+<div class="land"><div class="eyebrow">Custom embroidery</div><h2>Design it. We’ll stitch it.</h2><button class="go" id="openSheet" type="button">Customise your design</button></div>
+<div class="ov" id="ov"><main class="sheet"><button class="x" id="closeSheet" type="button" aria-label="Close">×</button>
+<div class="eyebrow">Customise your own design</div>
+<h1>Design it. We’ll stitch it.</h1>
+<p class="sub">Have a design in mind? Let’s bring it to life.</p>
+
+<div class="wrap">
+<div id="form">
+<span class="lbl">1 · Garment</span><div class="opts" id="garment"></div>
+<span class="lbl">2 · Colour</span><div class="opts" id="colour"></div>
+<span class="lbl">3 · Size</span><div class="opts" id="size"></div>
+<div id="chart" style="overflow-x:auto"></div>
+<span class="lbl">4 · Embroidery placement</span><div class="opts" id="place"></div>
+<span class="lbl">5 · Embroidery size</span><div class="opts" id="esize"></div>
+
+<span class="lbl">6 · Reference design</span>
+<div class="note" style="font-size:16px;color:var(--fg);margin:0">Please send your reference design (image) in WhatsApp while sending the details.</div>
+<input type="file" id="file" hidden><img id="prev" alt="" hidden>
+
+<span class="lbl">7 · Special instructions</span>
+<textarea id="notes"></textarea>
+
+<div class="row" style="margin-top:28px">
+<div><span class="lbl" style="margin-top:0">Your name</span><input id="name" autocomplete="name"></div>
+<div><span class="lbl" style="margin-top:0">WhatsApp / phone</span><input id="phone" type="tel" autocomplete="tel"></div>
+</div>
+<button class="go" id="submit">Copy order details &amp; send in WhatsApp</button>
+<div class="note" style="font-size:15px;color:var(--acc)">For price details, send your details on WhatsApp.</div>
+<div class="err" id="err"></div>
+<div class="ok" id="ok"></div>
+</div>
+<aside class="pv" id="pv"><svg id="svg" viewBox="0 0 400 430" role="img" aria-label="Design preview"></svg><div class="cap" id="cap"></div><div class="cap2">Live preview — indicative only; final stitch layout is confirmed with you before production.</div></aside>
+</div>
+</main></div>
+
+<script>
+// ====== CHANGE THIS to your WhatsApp number: country code + number, digits only (no + or spaces) ======
+var OWNER_WHATSAPP = "916281479334";
+// =========================================================================================================
+
+var colours = [["Black","#1a1a1a"],["White","#f5f5f2"],["Navy Blue","#1f2b4d"]];
+var groups = {
+  garment:["Shirt","Oversized T-shirt","Hoodie"],
+  size:["S","M","L","XL","XXL","3XL","4XL","5XL"],
+  place:["Left chest","Right chest","Centre front","Full front","Back","Sleeve"],
+  esize:["5 × 5 in","6 × 8 in","10 × 12 in"]
+};
+var sel = {garment:"Oversized T-shirt",colour:"Black",size:"L",place:"Right chest",esize:"5 × 5 in"};
+
+function build(id, items){
+  var box = document.getElementById(id);
+  items.forEach(function(v){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "opt" + (sel[id]===v ? " on" : ""); b.textContent = v;
+    b.onclick = function(){ sel[id]=v; [].forEach.call(box.children,function(c){c.classList.remove("on")}); b.classList.add("on"); };
+    box.appendChild(b);
+  });
+}
+Object.keys(groups).forEach(function(k){ build(k, groups[k]); });
+
+(function(){
+  var box = document.getElementById("colour");
+  colours.forEach(function(c){
+    var b = document.createElement("button");
+    b.type="button"; b.className="sw"+(sel.colour===c[0]?" on":""); b.style.background=c[1]; b.title=c[0]; b.setAttribute("aria-label",c[0]);
+    b.onclick=function(){ sel.colour=c[0]; [].forEach.call(box.children,function(x){x.classList.remove("on")}); b.classList.add("on"); };
+    box.appendChild(b);
+  });
+})();
+
+document.getElementById("file").onchange = function(e){
+  var f = e.target.files[0], p = document.getElementById("prev");
+  if(f && f.type.indexOf("image/")===0){ p.src = URL.createObjectURL(f); p.style.display="block"; } else { p.style.display="none"; }
+};
+
+document.getElementById("submit").onclick = function(){
+  var name = document.getElementById("name").value.trim();
+  var phone = document.getElementById("phone").value.trim();
+  var err = document.getElementById("err");
+  if(!name || !phone){ err.textContent = "Please enter your name and WhatsApp number."; return; }
+  err.textContent = "";
+  var f = document.getElementById("file").files[0];
+  var lines = [
+    "*New custom design request*","",
+    "Garment: "+sel.garment,
+    "Colour: "+sel.colour,
+    "Size: "+sel.size,
+    "Placement: "+sel.place,
+    "Embroidery size: "+sel.esize,
+    "Instructions: "+(document.getElementById("notes").value.trim()||"-"),
+    "Artwork: "+(f ? f.name+" (attaching in this chat)" : "none"),"",
+    "Name: "+name,
+    "Phone: "+phone
+  ];
+  var url = "https://wa.me/"+OWNER_WHATSAPP+"?text="+encodeURIComponent(lines.join("\n"));
+  var ok = document.getElementById("ok");
+  ok.style.display = "block";
+  ok.innerHTML = "";
+  var t = document.createElement("div");
+  t.textContent = "Thank you, "+name+"! Opening WhatsApp with your design request. Please press Send, and attach your artwork image in the chat.";
+  var a = document.createElement("a");
+  a.href = url; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Open WhatsApp";
+  ok.appendChild(t); ok.appendChild(a);
+  var msg = lines.join("\n");
+  var cp = document.createElement("button");
+  cp.type = "button"; cp.textContent = "Copy order message";
+  cp.style.cssText = "margin:12px 0 0 10px;background:none;color:var(--acc);border:1px solid var(--acc);padding:11px 18px;font:inherit;cursor:pointer";
+  cp.onclick = function(){
+    var done = function(){ cp.textContent = "Copied ✓"; };
+    try { navigator.clipboard.writeText(msg).then(done, function(){ fallback(); }); } catch(e){ fallback(); }
+  };
+  function fallback(){
+    var ta = document.createElement("textarea"); ta.readOnly = true; ta.value = msg; ta.style.marginTop = "12px"; ta.style.minHeight = "160px";
+    ok.appendChild(ta); ta.focus(); ta.select();
+  }
+  ok.appendChild(cp);
+  var alt = document.createElement("div");
+  alt.style.cssText = "margin-top:14px;font-size:14px;opacity:.9";
+  alt.textContent = "If WhatsApp does not open, message us directly on +91 6281479334 and paste the copied order.";
+  ok.appendChild(alt);
+  ok.scrollIntoView({behavior:"smooth",block:"center"});
+  var w = null;
+  try { w = window.open(url, "_blank"); } catch(e){}
+  if(!w){ t.textContent = "Thank you, "+name+"! Tap the Open WhatsApp button below to send your order."; }
+};
+var glow = {"Black":"#0b2d52","White":"#3c4d66","Navy Blue":"#4b2f66"};
+function esc(s){return s.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]})}
+function render(){
+  var back = sel.place==="Back", g = sel.garment;
+  var hex = colours.filter(function(c){return c[0]===sel.colour})[0][1];
+  var d = back ? 40 : 70, light = sel.colour==="White";
+  var body;
+  if(g==="Shirt") body = "M150 30 Q200 "+(d-10)+" 250 30 L322 62 L385 320 L345 335 L322 170 L322 412 L78 412 L78 170 L55 335 L15 320 L78 62 Z";
+  else if(g==="Oversized T-shirt") body = "M150 30 Q200 "+d+" 250 30 L335 68 L388 165 L345 185 L328 140 L328 412 L72 412 L72 140 L55 185 L12 165 L65 68 Z";
+  else body = "M150 35 Q200 "+(d+4)+" 250 35 L322 62 L388 335 L342 350 L324 195 L324 412 L76 412 L76 195 L58 350 L12 335 L78 62 Z";
+  var out = "";
+  if(g==="Hoodie") out += '<path d="M140 40 Q200 -18 260 40 Q200 '+(back?70:100)+' 140 40Z" fill="'+hex+'" stroke="#2a3f55" stroke-width="3"/>';
+  out += '<path d="'+body+'" fill="'+hex+'" stroke="#2e4259" stroke-width="3" stroke-linejoin="round"/>';
+  var m = /(\d+)\s×\s(\d+)/.exec(sel.esize), w = m[1]*12, h = m[2]*12;
+  var P = {"Right chest":[140,130],"Left chest":[260,130],"Centre front":[200,150],"Full front":[200,215],"Back":[200,150],"Sleeve":[g==="Oversized T-shirt"?48:42,g==="Oversized T-shirt"?112:190]};
+  var pos = P[sel.place];
+  if(sel.place==="Sleeve"){ w=Math.min(w,34); h=Math.min(h,34); }
+  if(g==="Shirt"){
+    var sk = "#2e4259";
+    out += '<path d="M150 30 L200 82 L172 96 L128 48 Z" fill="'+hex+'" stroke="'+sk+'" stroke-width="2.5" stroke-linejoin="round"/><path d="M250 30 L200 82 L228 96 L272 48 Z" fill="'+hex+'" stroke="'+sk+'" stroke-width="2.5" stroke-linejoin="round"/>';
+    if(!back){ out += '<path d="M200 82 L200 412" stroke="'+sk+'" stroke-width="2"/>'; [120,170,220,270,320,370].forEach(function(y){ out += '<circle cx="200" cy="'+y+'" r="3" fill="'+sk+'"/>'; }); }
+  }
+  var top = pos[1]-h/2, p = document.getElementById("prev");
+  var img = p.style.display==="block" ? p.src : null;
+  if(img) out += '<image href="'+img+'" x="'+(pos[0]-w/2)+'" y="'+top+'" width="'+w+'" height="'+h+'" preserveAspectRatio="xMidYMid meet"/>';
+  else out += '<rect x="'+(pos[0]-w/2)+'" y="'+top+'" width="'+w+'" height="'+h+'" fill="none" stroke="'+(light?'#777':'#888')+'" stroke-dasharray="5 4"/>';
+  var t = "";
+  if(t){
+    var fs = Math.max(13, Math.min(24, w/3));
+    out += '<text x="'+pos[0]+'" y="'+(top+h+fs+2)+'" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-style="italic" font-weight="500" font-size="'+fs+'" fill="'+(light?'#0079b0':'#2ec4ff')+'">'+esc(t)+'</text>';
+  }
+  if(back) out += '<text x="200" y="425" text-anchor="middle" font-size="12" fill="#8a96a4">BACK VIEW</text>';
+  document.getElementById("svg").innerHTML = out;
+  var SC = {"Shirt":[[38,28],[40,29],[42,30],[44,31],[46,32],[48,33],[50,34],[52,35]],"Oversized T-shirt":[[42,27],[44,28],[46,29],[48,30],[50,31],[52,32],[54,33],[56,34]],"Hoodie":[[40,25],[42,26],[44,27],[46,28],[48,29],[50,30],[52,31],[54,32]]};
+  var rows = SC[g], hd = "<tr><th>Size</th>", c1 = "<tr><th>Chest</th>", c2 = "<tr><th>Length</th>";
+  groups.size.forEach(function(s,i){ var on = s===sel.size ? ' class="on"' : ""; hd += "<td"+on+"><b>"+s+"</b></td>"; c1 += "<td"+on+">"+rows[i][0]+"</td>"; c2 += "<td"+on+">"+rows[i][1]+"</td>"; });
+  document.getElementById("chart").innerHTML = '<table class="chart">'+hd+"</tr>"+c1+"</tr>"+c2+"</tr></table><div class=\"note\">"+g+" size chart · chest (around) and length in inches · approximate</div>";
+  document.getElementById("cap").textContent = [sel.garment, sel.colour, sel.size, sel.place, sel.esize].join(" · ");
+  document.getElementById("pv").style.background = "radial-gradient(circle at 50% 40%,"+glow[sel.colour]+" 0%,#03060b 78%)";
+}
+document.getElementById("form").addEventListener("click", render);
+document.getElementById("form").addEventListener("input", render);
+document.getElementById("form").addEventListener("change", render);
+render();
+(function(){
+  var ov = document.getElementById("ov");
+  function open(){ ov.classList.add("open"); document.body.style.overflow = "hidden"; render(); }
+  function close(){ ov.classList.remove("open"); document.body.style.overflow = ""; }
+  document.getElementById("openSheet").onclick = open;
+  document.getElementById("closeSheet").onclick = close;
+  ov.addEventListener("click", function(e){ if(e.target===ov) close(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape") close(); });
+  document.getElementById("submit").onclick = function(){
+    var name = document.getElementById("name").value.trim();
+    var phone = document.getElementById("phone").value.trim();
+    var err = document.getElementById("err");
+    if(!name || !phone){ err.textContent = "Please enter your name and WhatsApp number."; return; }
+    err.textContent = "";
+    var f = document.getElementById("file").files[0];
+    var msg = [
+      "*New custom design request*","",
+      "Garment: "+sel.garment,
+      "Colour: "+sel.colour,
+      "Size: "+sel.size,
+      "Placement: "+sel.place,
+      "Embroidery size: "+sel.esize,
+      "Instructions: "+(document.getElementById("notes").value.trim()||"-"),
+      "Reference design: sending in this chat","",
+      "Name: "+name,
+      "Phone: "+phone
+    ].join("\n");
+    var ok = document.getElementById("ok");
+    ok.innerHTML = "";
+    ok.style.display = "block";
+    var t = document.createElement("div");
+    ok.appendChild(t);
+    function addLink(){
+      var a = document.createElement("a");
+      a.href = url; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Open WhatsApp";
+      ok.appendChild(a);
+    }
+    function showBox(){
+      t.textContent = "Please select and copy the details below, then send them to us on WhatsApp.";
+      var ta = document.createElement("textarea"); ta.readOnly = true; ta.value = msg; ta.style.marginTop = "12px"; ta.style.minHeight = "190px";
+      ok.appendChild(ta); ta.focus(); ta.select(); addLink();
+    }
+    function copied(){
+      t.textContent = "Order details copied ✓ WhatsApp is opening. Press Send there, then send your reference design image in the chat. If it didn’t open, tap Open WhatsApp below.";
+      addLink();
+    }
+    var url = "https://wa.me/"+OWNER_WHATSAPP+"?text="+encodeURIComponent(msg);
+    try { navigator.clipboard.writeText(msg); } catch(e){}
+    try { window.open(url, "_blank"); } catch(e){}
+    copied();
+    ok.scrollIntoView({behavior:"smooth",block:"center"});
+  };
+  open();
+})();
+</script>
+</body>
+</html>
